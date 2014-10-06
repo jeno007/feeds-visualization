@@ -154,8 +154,8 @@
 										renderer: 'line',
 										//min: parseFloat(datastream.min_value) - .25*(parseFloat(datastream.max_value) - parseFloat(datastream.min_value)),
 										//max: parseFloat(datastream.max_value) + .25*(parseFloat(datastream.max_value) - parseFloat(datastream.min_value)),
-										min: minv - .25*maxv - minv,
-										max: maxv + .25*maxv - minv,
+										min: minv - .25*maxv,
+										max: maxv + .25*maxv,
 										padding: {
 											top: 0.02,
 											right: 0.02,
