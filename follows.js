@@ -95,6 +95,7 @@
 
 								var series = [];
 								var points = [];
+								var values = [];
 
 								// Create Datastream UI
 								$('.datastream-' + datastream.id).empty();
@@ -131,6 +132,7 @@
 									// Add Each Datapoint to Array
 									datastreamData.datapoints.forEach(function(datapoint) {
 										points.push({x: new Date(datapoint.at).getTime()/1000.0, y: parseFloat(datapoint.value)});
+										values.push(points[points.length - 1].y);
 									});
 
 									// Add Datapoints Array to Graph Series Array
@@ -139,18 +141,21 @@
 										data: points,
 										color: '#' + dataColor
 									});
-
+									var minv = Math.min.apply(Math, values);
+									var maxv = Math.max.apply(Math, values);
 									// Initialize Graph DOM Element
 									$('#feed-' + feedId + ' .datastreams .datastream-' + datastream.id + ' .graph').attr('id', 'graph-' + feedId + '-' + datastream.id);
-
+									
 						 			// Build Graph
 									var graph = new Rickshaw.Graph( {
 										element: document.querySelector('#graph-' + feedId + '-' + datastream.id),
 										width: 600,
 										height: 200,
 										renderer: 'line',
-										min: parseFloat(datastream.min_value) - .25*(parseFloat(datastream.max_value) - parseFloat(datastream.min_value)),
-										max: parseFloat(datastream.max_value) + .25*(parseFloat(datastream.max_value) - parseFloat(datastream.min_value)),
+										//min: parseFloat(datastream.min_value) - .25*(parseFloat(datastream.max_value) - parseFloat(datastream.min_value)),
+										//max: parseFloat(datastream.max_value) + .25*(parseFloat(datastream.max_value) - parseFloat(datastream.min_value)),
+										min: minv - .25*maxv - minv;
+										max: maxv + .25*maxv - minv;
 										padding: {
 											top: 0.02,
 											right: 0.02,
